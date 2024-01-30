@@ -1,13 +1,17 @@
 import streamlit as st
-import os
 import joblib 
-import numpy as np 
-import pandas as pd
 
 
-load_model_file_path = os.path.abspath('text_classification.pkl')
+def load_model():
+    with open('text_classification.pkl', 'rb') as file:
+        load_model = joblib.load(file)
+    return load_model
 
-load_model = joblib.load(load_model_file_path)
+load_model = load_model()
+
+#load_model_file_path = os.path.abspath('text_classification.pkl')
+
+#load_model = joblib.load(load_model_file_path)
 
 
 st.title('Text Classification')
@@ -19,12 +23,18 @@ text = st.text_input("Enter your text")
 
 text_predicted = load_model.predict([text])
 
-if text_predicted == ['pos']:
 
-    st.title('The text is Positive')
+ok = st.button('Classify text if it is Positive or Negative')
+if ok:
+    if text_predicted == ['pos']:
 
-else: 
-    st.title('The text is Negaive')
+        st.subheader('The text is Positive')
+
+    else: 
+        st.subheader('The text is Negaive')
+
+
+
 
    
 
